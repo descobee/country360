@@ -15,6 +15,7 @@ class CountryRepository {
     try {
       if (response.statusCode == 200) {
         final result = countriesModelFromJson(response.body);
+        print(result);
         return result;
       } else {
         throw Exception(response.reasonPhrase);

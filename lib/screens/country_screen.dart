@@ -1,28 +1,46 @@
+import 'package:country360/country_model/country_model.dart';
+import 'package:country360/domain/controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends ConsumerStatefulWidget {
   const HomePage({
     super.key,
   });
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  ConsumerState<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends ConsumerState<HomePage> {
   final TextEditingController controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     final colorTheme = Theme.of(context).colorScheme;
     final size = MediaQuery.of(context).size;
+    final controllerCountry = ref.read(countryController);
     return SafeArea(
       child: GestureDetector(
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
         child: Scaffold(
           appBar: AppBar(
-            leading: Container(),
+            leading: Wrap(
+              children: [
+                Text(
+                  'Explore',
+                  style: GoogleFonts.elsieSwashCaps(
+                      fontSize: 20, color: colorTheme.surface),
+                ),
+                Text(
+                  '.',
+                  style: GoogleFonts.elsieSwashCaps(
+                      fontSize: 20, color: colorTheme.error),
+                )
+              ],
+            ),
             actions: [Container()],
           ),
           body: Padding(
@@ -113,50 +131,94 @@ class _HomePageState extends State<HomePage> {
                     child: SizedBox(
                   height: size.height * 0.5,
                   child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          width: size.width,
-                          child: Row(
-                            children: [
-                              Container(
-                                width: 40,
-                                height: 40,
-                                decoration: BoxDecoration(
-                                  color: colorTheme.error,
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Country Name',
-                                    style: textTheme.headline1,
+                    child: Consumer(builder: (context, ref, _) {
+                      return RefreshIndicator(
+                          onRefresh: () =>
+                              ref.refresh(countryController.future),
+                          child: controllerCountry.when(
+                              data: (data) {
+                                List<CountriesModel> countries = data
+                                    .map(
+                                      (e) => e,
+                                    )
+                                    .toList();
+                                return Expanded(
+                                    child: ListView.builder(
+                                        itemCount: countries.length,
+                                        itemBuilder: (context, index) {
+                                          return countryTile(
+                                              flag: countries[index].flags?.svg,
+                                              country: countries[index]
+                                                      .name
+                                                      ?.common ??
+                                                  '',
+                                              capital: countries[index]
+                                                      .capital?[0] ??
+                                                  '');
+                                        }));
+                              },
+                              error: (error, _) {
+                                return const Center(
+                                  child: Text(
+                                    'Error generating countries\nSwipe down to refresh',
+                                    style: TextStyle(
+                                      fontFamily: 'Axiforma',
+                                      fontSize: 16,
+                                      color: Colors.white,
+                                    ),
                                   ),
-                                  const SizedBox(
-                                    height: 5,
-                                  ),
-                                  Text(
-                                    'Capital',
-                                    style: textTheme.subtitle1,
-                                  )
-                                ],
-                              )
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
+                                );
+                              },
+                              loading: () => const Center(
+                                    child: CircularProgressIndicator(),
+                                  )));
+                    }),
                   ),
                 )),
               ],
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  SizedBox countryTile(
+      {required String country, required String capital, String? flag}) {
+    final textTheme = Theme.of(context).textTheme;
+    final colorTheme = Theme.of(context).colorScheme;
+    final size = MediaQuery.of(context).size;
+    return SizedBox(
+      width: size.width,
+      child: Row(
+        children: [
+          flag != null
+              ? SvgPicture.network(flag, height: 40, width: 40)
+              : Container(
+                  width: 40,
+                  height: 40,
+                  color: colorTheme.secondary,
+                ),
+          const SizedBox(
+            width: 10,
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                country,
+                style: textTheme.headline1,
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              Text(
+                capital,
+                style: textTheme.subtitle1,
+              )
+            ],
+          )
+        ],
       ),
     );
   }

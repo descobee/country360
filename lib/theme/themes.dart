@@ -14,7 +14,7 @@ class MyThemes {
           onError: Colors.redAccent,
           background: Colors.white,
           onBackground: Colors.white,
-          surface: Colors.white,
+          surface: Color(0XFF000F24),
           onSurface: Colors.white),
       appBarTheme: const AppBarTheme(
         elevation: 0,
@@ -47,7 +47,7 @@ class MyThemes {
           onError: Colors.redAccent,
           background: const Color(0XFF000F24),
           onBackground: const Color(0XFF000F24),
-          surface: const Color(0XFF000F24),
+          surface: Colors.white,
           onSurface: const Color(0XFF000F24)),
       appBarTheme: const AppBarTheme(
         elevation: 0,
