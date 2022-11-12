@@ -27,17 +27,22 @@ class _HomePageState extends ConsumerState<HomePage> {
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
         child: Scaffold(
           appBar: AppBar(
-            leading: Wrap(
+            leadingWidth: 500,
+            leading: Row(
               children: [
                 Text(
                   'Explore',
                   style: GoogleFonts.elsieSwashCaps(
-                      fontSize: 20, color: colorTheme.surface),
+                      fontSize: 20,
+                      color: colorTheme.surface,
+                      fontWeight: FontWeight.bold),
                 ),
                 Text(
                   '.',
                   style: GoogleFonts.elsieSwashCaps(
-                      fontSize: 20, color: colorTheme.error),
+                      fontSize: 30,
+                      color: colorTheme.error,
+                      fontWeight: FontWeight.bold),
                 )
               ],
             ),
@@ -129,49 +134,45 @@ class _HomePageState extends ConsumerState<HomePage> {
                 ),
                 Expanded(
                     child: SizedBox(
-                  height: size.height * 0.5,
                   child: SingleChildScrollView(
+                    physics: const AlwaysScrollableScrollPhysics(),
                     child: Consumer(builder: (context, ref, _) {
-                      return RefreshIndicator(
-                          onRefresh: () =>
-                              ref.refresh(countryController.future),
-                          child: controllerCountry.when(
-                              data: (data) {
-                                List<CountriesModel> countries = data
-                                    .map(
-                                      (e) => e,
-                                    )
-                                    .toList();
-                                return Expanded(
-                                    child: ListView.builder(
-                                        itemCount: countries.length,
-                                        itemBuilder: (context, index) {
-                                          return countryTile(
-                                              flag: countries[index].flags?.svg,
-                                              country: countries[index]
-                                                      .name
-                                                      ?.common ??
-                                                  '',
-                                              capital: countries[index]
-                                                      .capital?[0] ??
-                                                  '');
-                                        }));
-                              },
-                              error: (error, _) {
-                                return const Center(
-                                  child: Text(
-                                    'Error generating countries\nSwipe down to refresh',
-                                    style: TextStyle(
-                                      fontFamily: 'Axiforma',
-                                      fontSize: 16,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                );
-                              },
-                              loading: () => const Center(
-                                    child: CircularProgressIndicator(),
-                                  )));
+                      return controllerCountry.when(
+                          data: (data) {
+                            List<CountriesModel> countries = data
+                                .map(
+                                  (e) => e,
+                                )
+                                .toList();
+                            return Column(
+                              children: [
+                                ...List.generate(countries.length, (index) {
+                                  return countryTile(
+                                      flag: countries[index].flags?.svg,
+                                      country:
+                                          countries[index].name?.common ?? '',
+                                      capital:
+                                          countries[index].capital?[0] ?? '');
+                                })
+                              ],
+                            );
+                          },
+                          error: (error, _) {
+                            return const Center(
+                              child: Text(
+                                'Error generating countries\nSwipe down to refresh',
+                                style: TextStyle(
+                                  fontFamily: 'Axiforma',
+                                  fontSize: 16,
+                                  color: Colors.white,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            );
+                          },
+                          loading: () => const Center(
+                                child: CircularProgressIndicator(),
+                              ));
                     }),
                   ),
                 )),
@@ -183,42 +184,45 @@ class _HomePageState extends ConsumerState<HomePage> {
     );
   }
 
-  SizedBox countryTile(
+  Widget countryTile(
       {required String country, required String capital, String? flag}) {
     final textTheme = Theme.of(context).textTheme;
     final colorTheme = Theme.of(context).colorScheme;
     final size = MediaQuery.of(context).size;
-    return SizedBox(
-      width: size.width,
-      child: Row(
-        children: [
-          flag != null
-              ? SvgPicture.network(flag, height: 40, width: 40)
-              : Container(
-                  width: 40,
-                  height: 40,
-                  color: colorTheme.secondary,
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 10),
+      child: SizedBox(
+        width: size.width,
+        child: Row(
+          children: [
+            flag != null
+                ? SvgPicture.network(flag, height: 40, width: 40)
+                : Container(
+                    width: 40,
+                    height: 40,
+                    color: colorTheme.secondary,
+                  ),
+            const SizedBox(
+              width: 10,
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  country,
+                  style: textTheme.headline1,
                 ),
-          const SizedBox(
-            width: 10,
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                country,
-                style: textTheme.headline1,
-              ),
-              const SizedBox(
-                height: 5,
-              ),
-              Text(
-                capital,
-                style: textTheme.subtitle1,
-              )
-            ],
-          )
-        ],
+                const SizedBox(
+                  height: 5,
+                ),
+                Text(
+                  capital,
+                  style: textTheme.subtitle1,
+                ),
+              ],
+            )
+          ],
+        ),
       ),
     );
   }

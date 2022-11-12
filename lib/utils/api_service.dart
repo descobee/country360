@@ -10,7 +10,8 @@ class ApiClient {
     http.Response response;
 
     try {
-      response = await client.get(sentURL);
+      response = await http.get(sentURL);
+      print(response.toString());
     } catch (e) {
       rethrow;
     }
