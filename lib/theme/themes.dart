@@ -37,18 +37,18 @@ class MyThemes {
   static ThemeData darkTheme = ThemeData(
       brightness: Brightness.dark,
       primaryColor: const Color(0XFF000F24),
-      colorScheme: const ColorScheme(
+      colorScheme: ColorScheme(
           brightness: Brightness.dark,
           primary: Colors.white,
           onPrimary: Colors.white,
-          secondary: Color(0XFFA9B8D4),
-          onSecondary: Color(0XFFA9B8D4),
+          secondary: const Color(0XFFA9B8D4).withOpacity(0.2),
+          onSecondary: const Color(0XFFA9B8D4).withOpacity(0.2),
           error: Colors.redAccent,
           onError: Colors.redAccent,
-          background: Color(0XFF000F24),
-          onBackground: Color(0XFF000F24),
-          surface: Color(0XFF000F24),
-          onSurface: Color(0XFF000F24)),
+          background: const Color(0XFF000F24),
+          onBackground: const Color(0XFF000F24),
+          surface: const Color(0XFF000F24),
+          onSurface: const Color(0XFF000F24)),
       appBarTheme: const AppBarTheme(
         elevation: 0,
         color: Color(0XFF000F24),
@@ -66,7 +66,7 @@ class MyThemes {
             fontFamily: 'Axiforma',
             fontSize: 14,
             color: Colors.white,
-            fontWeight: FontWeight.w500,
+            fontWeight: FontWeight.bold,
           ),
           subtitle1: TextStyle(
             fontFamily: 'Axiforma',
