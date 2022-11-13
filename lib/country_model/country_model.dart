@@ -13,242 +13,89 @@ String countriesModelToJson(List<CountriesModel> data) =>
 
 class CountriesModel {
   CountriesModel({
-    this.name,
-    this.tld,
-    this.cca2,
-    this.ccn3,
-    this.cca3,
-    this.cioc,
+    this.officialName,
+    this.commonName,
     this.independent,
-    this.status,
-    this.unMember,
     this.currencies,
-    this.idd,
     this.capital,
-    this.altSpellings,
     this.region,
     this.subregion,
     this.languages,
-    this.translations,
-    this.latlng,
-    this.landlocked,
-    this.borders,
     this.area,
-    this.demonyms,
-    this.flag,
-    this.maps,
     this.population,
-    this.gini,
-    this.fifa,
-    this.car,
     this.timezones,
-    this.continents,
     this.flags,
     this.coatOfArms,
-    this.startOfWeek,
-    this.capitalInfo,
     this.postalCode,
+    this.side,
   });
 
-  Name? name;
-  List<String>? tld;
-  String? cca2;
-  String? ccn3;
-  String? cca3;
-  String? cioc;
+  String? officialName;
+  String? commonName;
   bool? independent;
-  String? status;
-  bool? unMember;
   Currencies? currencies;
-  Idd? idd;
-  List<String>? capital;
-  List<String>? altSpellings;
+  String? capital;
   String? region;
   String? subregion;
   Map<String, String>? languages;
-  Map<String, Translation>? translations;
-  List<double>? latlng;
-  bool? landlocked;
-  List<String>? borders;
   double? area;
-  Demonyms? demonyms;
-  String? flag;
-  Maps? maps;
-  int? population;
-  Map<String, double>? gini;
-  String? fifa;
-  Car? car;
+  double? population;
+  String? side;
   List<String>? timezones;
-  List<String>? continents;
-  CoatOfArms? flags;
-  CoatOfArms? coatOfArms;
-  String? startOfWeek;
-  CapitalInfo? capitalInfo;
-  PostalCode? postalCode;
+  Flags? flags;
+  String? coatOfArms;
+  String? postalCode;
 
   factory CountriesModel.fromJson(Map<String, dynamic> json) => CountriesModel(
-        name: Name.fromJson(json["name"]),
-        tld: json["tld"] == null
-            ? null
-            : List<String>.from(json["tld"].map((x) => x)),
-        cca2: json["cca2"],
-        ccn3: json["ccn3"],
-        cca3: json["cca3"],
-        cioc: json["cioc"],
+        officialName:
+            (json["name"] as Map<String, dynamic>)["official"] as String?,
+        commonName: (json["name"] as Map<String, dynamic>)["common"] as String?,
         independent: json["independent"],
-        status: json["status"],
-        unMember: json["unMember"],
         currencies: json["currencies"] == null
             ? null
             : Currencies.fromJson(json["currencies"]),
-        idd: Idd.fromJson(json["idd"]),
         capital: json["capital"] == null
-            ? null
-            : List<String>.from(json["capital"].map((x) => x)),
-        altSpellings: List<String>.from(json["altSpellings"].map((x) => x)),
+            ? " "
+            : (json["capital"] as List<dynamic>).first as String?,
         region: json["region"],
         subregion: json["subregion"],
         languages: json["languages"] == null
             ? null
             : Map.from(json["languages"])
                 .map((k, v) => MapEntry<String, String>(k, v)),
-        translations: Map.from(json["translations"]).map((k, v) =>
-            MapEntry<String, Translation>(k, Translation.fromJson(v))),
-        latlng: List<double>.from(json["latlng"].map((x) => x.toDouble())),
-        landlocked: json["landlocked"],
-        borders: json["borders"] == null
-            ? null
-            : List<String>.from(json["borders"].map((x) => x)),
         area: json["area"].toDouble(),
-        demonyms: json["demonyms"] == null
-            ? null
-            : Demonyms.fromJson(json["demonyms"]),
-        flag: json["flag"],
-        maps: Maps.fromJson(json["maps"]),
-        population: json["population"],
-        gini: json["gini"] == null
-            ? null
-            : Map.from(json["gini"])
-                .map((k, v) => MapEntry<String, double>(k, v.toDouble())),
-        fifa: json["fifa"],
-        car: Car.fromJson(json["car"]),
+        population: (json["population"] as num).toDouble(),
+        side: json["car"] != null
+            ? (json["car"] as Map<String, dynamic>)["side"] as String?
+            : "",
         timezones: List<String>.from(json["timezones"].map((x) => x)),
-        continents: List<String>.from(json["continents"].map((x) => x)),
-        flags: CoatOfArms.fromJson(json["flags"]),
-        coatOfArms: CoatOfArms.fromJson(json["coatOfArms"]),
-        startOfWeek: json["startOfWeek"],
-        capitalInfo: CapitalInfo.fromJson(json["capitalInfo"]),
+        flags: Flags.fromJson(json["flags"]),
+        coatOfArms:
+            (json["coatOfArms"] as Map<String, dynamic>)["png"] as String?,
         postalCode: json["postalCode"] == null
             ? null
-            : PostalCode.fromJson(json["postalCode"]),
+            : (json["postalCode"] as Map<String, dynamic>)["format"],
       );
 
   Map<String, dynamic> toJson() => {
-        "name": name!.toJson(),
-        "tld": tld == null ? null : List<dynamic>.from(tld!.map((x) => x)),
-        "cca2": cca2,
-        "ccn3": ccn3,
-        "cca3": cca3,
-        "cioc": cioc,
+        "official": officialName,
+        "common": commonName,
         "independent": independent,
-        "status": status,
-        "unMember": unMember,
         "currencies": currencies == null ? null : currencies!.toJson(),
-        "idd": idd!.toJson(),
-        "capital":
-            capital == null ? null : List<dynamic>.from(capital!.map((x) => x)),
-        "altSpellings": List<dynamic>.from(altSpellings!.map((x) => x)),
+        "capital": capital,
         "region": region,
         "subregion": subregion,
         "languages": languages == null
             ? null
             : Map.from(languages!)
                 .map((k, v) => MapEntry<String, dynamic>(k, v)),
-        "translations": Map.from(translations!)
-            .map((k, v) => MapEntry<String, dynamic>(k, v.toJson())),
-        "latlng": List<dynamic>.from(latlng!.map((x) => x)),
-        "landlocked": landlocked,
-        "borders":
-            borders == null ? null : List<dynamic>.from(borders!.map((x) => x)),
         "area": area,
-        "demonyms": demonyms == null ? null : demonyms!.toJson(),
-        "flag": flag,
-        "maps": maps!.toJson(),
         "population": population,
-        "gini": gini == null
-            ? null
-            : Map.from(gini!).map((k, v) => MapEntry<String, dynamic>(k, v)),
-        "fifa": fifa,
-        "car": car!.toJson(),
-        "timezones": List<dynamic>.from(timezones!.map((x) => x)),
-        "continents": List<dynamic>.from(continents!.map((x) => x)),
-        "flags": flags!.toJson(),
-        "coatOfArms": coatOfArms!.toJson(),
-        "startOfWeek": startOfWeek,
-        "capitalInfo": capitalInfo!.toJson(),
-        "postalCode": postalCode == null ? null : postalCode!.toJson(),
-      };
-}
-
-class CapitalInfo {
-  CapitalInfo({
-    this.latlng,
-  });
-
-  List<double>? latlng;
-
-  factory CapitalInfo.fromJson(Map<String, dynamic> json) => CapitalInfo(
-        latlng: json["latlng"] == null
-            ? null
-            : List<double>.from(json["latlng"].map((x) => x.toDouble())),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "latlng":
-            latlng == null ? null : List<dynamic>.from(latlng!.map((x) => x)),
-      };
-}
-
-class Car {
-  Car({
-    this.signs,
-    this.side,
-  });
-
-  List<String>? signs;
-  String? side;
-
-  factory Car.fromJson(Map<String, dynamic> json) => Car(
-        signs: json["signs"] == null
-            ? null
-            : List<String>.from(json["signs"].map((x) => x)),
-        side: json["side"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "signs":
-            signs == null ? null : List<dynamic>.from(signs!.map((x) => x)),
         "side": side,
-      };
-}
-
-class CoatOfArms {
-  CoatOfArms({
-    this.png,
-    this.svg,
-  });
-
-  String? png;
-  String? svg;
-
-  factory CoatOfArms.fromJson(Map<String, dynamic> json) => CoatOfArms(
-        png: json["png"],
-        svg: json["svg"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "png": png,
-        "svg": svg,
+        "timezones": timezones,
+        "flags": flags!.toJson(),
+        "png": coatOfArms,
+        "postalCode": postalCode,
       };
 }
 
@@ -952,156 +799,22 @@ class Bam {
       };
 }
 
-class Demonyms {
-  Demonyms({
-    this.eng,
-    this.fra,
+class Flags {
+  Flags({
+    this.png,
+    this.svg,
   });
 
-  Eng? eng;
-  Eng? fra;
+  String? png;
+  String? svg;
 
-  factory Demonyms.fromJson(Map<String, dynamic> json) => Demonyms(
-        eng: Eng.fromJson(json["eng"]),
-        fra: json["fra"] == null ? null : Eng.fromJson(json["fra"]),
+  factory Flags.fromJson(Map<String, dynamic> json) => Flags(
+        png: json["png"],
+        svg: json["svg"],
       );
 
   Map<String, dynamic> toJson() => {
-        "eng": eng!.toJson(),
-        "fra": fra == null ? null : fra!.toJson(),
-      };
-}
-
-class Eng {
-  Eng({
-    this.f,
-    this.m,
-  });
-
-  String? f;
-  String? m;
-
-  factory Eng.fromJson(Map<String, dynamic> json) => Eng(
-        f: json["f"],
-        m: json["m"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "f": f,
-        "m": m,
-      };
-}
-
-class Idd {
-  Idd({
-    this.root,
-    this.suffixes,
-  });
-
-  String? root;
-  List<String>? suffixes;
-
-  factory Idd.fromJson(Map<String, dynamic> json) => Idd(
-        root: json["root"],
-        suffixes: json["suffixes"] == null
-            ? null
-            : List<String>.from(json["suffixes"].map((x) => x)),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "root": root,
-        "suffixes": suffixes == null
-            ? null
-            : List<dynamic>.from(suffixes!.map((x) => x)),
-      };
-}
-
-class Maps {
-  Maps({
-    this.googleMaps,
-    this.openStreetMaps,
-  });
-
-  String? googleMaps;
-  String? openStreetMaps;
-
-  factory Maps.fromJson(Map<String, dynamic> json) => Maps(
-        googleMaps: json["googleMaps"],
-        openStreetMaps: json["openStreetMaps"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "googleMaps": googleMaps,
-        "openStreetMaps": openStreetMaps,
-      };
-}
-
-class Name {
-  Name({
-    this.common,
-    this.official,
-    this.nativeName,
-  });
-
-  String? common;
-  String? official;
-  Map<String, Translation>? nativeName;
-
-  factory Name.fromJson(Map<String, dynamic> json) => Name(
-        common: json["common"],
-        official: json["official"],
-        nativeName: json["nativeName"] == null
-            ? null
-            : Map.from(json["nativeName"]).map((k, v) =>
-                MapEntry<String, Translation>(k, Translation.fromJson(v))),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "common": common,
-        "official": official,
-        "nativeName": nativeName == null
-            ? null
-            : Map.from(nativeName!)
-                .map((k, v) => MapEntry<String, dynamic>(k, v.toJson())),
-      };
-}
-
-class Translation {
-  Translation({
-    this.official,
-    this.common,
-  });
-
-  String? official;
-  String? common;
-
-  factory Translation.fromJson(Map<String, dynamic> json) => Translation(
-        official: json["official"],
-        common: json["common"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "official": official,
-        "common": common,
-      };
-}
-
-class PostalCode {
-  PostalCode({
-    this.format,
-    this.regex,
-  });
-
-  String? format;
-  String? regex;
-
-  factory PostalCode.fromJson(Map<String, dynamic> json) => PostalCode(
-        format: json["format"],
-        regex: json["regex"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "format": format,
-        "regex": regex,
+        "png": png,
+        "svg": svg,
       };
 }

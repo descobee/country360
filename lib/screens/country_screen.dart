@@ -30,12 +30,15 @@ class _HomePageState extends ConsumerState<HomePage> {
             leadingWidth: 500,
             leading: Row(
               children: [
-                Text(
-                  'Explore',
-                  style: GoogleFonts.elsieSwashCaps(
-                      fontSize: 20,
-                      color: colorTheme.surface,
-                      fontWeight: FontWeight.bold),
+                Padding(
+                  padding: const EdgeInsets.only(left: 20),
+                  child: Text(
+                    'Explore',
+                    style: GoogleFonts.elsieSwashCaps(
+                        fontSize: 20,
+                        color: colorTheme.surface,
+                        fontWeight: FontWeight.bold),
+                  ),
                 ),
                 Text(
                   '.',
@@ -134,46 +137,54 @@ class _HomePageState extends ConsumerState<HomePage> {
                 ),
                 Expanded(
                     child: SizedBox(
-                  child: SingleChildScrollView(
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    child: Consumer(builder: (context, ref, _) {
-                      return controllerCountry.when(
-                          data: (data) {
-                            List<CountriesModel> countries = data
-                                .map(
-                                  (e) => e,
-                                )
-                                .toList();
-                            return Column(
-                              children: [
-                                ...List.generate(countries.length, (index) {
-                                  return countryTile(
-                                      flag: countries[index].flags?.svg,
-                                      country:
-                                          countries[index].name?.common ?? '',
-                                      capital:
-                                          countries[index].capital?[0] ?? '');
-                                })
-                              ],
-                            );
-                          },
-                          error: (error, _) {
-                            return const Center(
-                              child: Text(
-                                'Error generating countries\nSwipe down to refresh',
-                                style: TextStyle(
-                                  fontFamily: 'Axiforma',
-                                  fontSize: 16,
-                                  color: Colors.white,
+                  child: RefreshIndicator(
+                    onRefresh: () {
+                      return ref.refresh(countryController.future);
+                    },
+                    child: SingleChildScrollView(
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      child: Consumer(builder: (context, ref, _) {
+                        return controllerCountry.when(
+                            data: (data) {
+                              List<CountriesModel> countries = data;
+                              countries.sort(
+                                (a, b) {
+                                  return a.commonName!
+                                      .toLowerCase()
+                                      .compareTo(b.commonName!.toLowerCase());
+                                },
+                              );
+                              return Column(
+                                children: [
+                                  ...List.generate(countries.length, (index) {
+                                    return countryTile(
+                                        flag: countries[index].flags?.png ?? "",
+                                        country: countries[index].commonName ??
+                                            'N/A',
+                                        capital:
+                                            countries[index].capital ?? 'N/A');
+                                  })
+                                ],
+                              );
+                            },
+                            error: (error, _) {
+                              return const Center(
+                                child: Text(
+                                  'Error generating countries\nSwipe down to refresh',
+                                  style: TextStyle(
+                                    fontFamily: 'Axiforma',
+                                    fontSize: 16,
+                                    color: Colors.white,
+                                  ),
+                                  textAlign: TextAlign.center,
                                 ),
-                                textAlign: TextAlign.center,
-                              ),
-                            );
-                          },
-                          loading: () => const Center(
-                                child: CircularProgressIndicator(),
-                              ));
-                    }),
+                              );
+                            },
+                            loading: () => const Center(
+                                  child: CircularProgressIndicator(),
+                                ));
+                      }),
+                    ),
                   ),
                 )),
               ],
@@ -190,13 +201,19 @@ class _HomePageState extends ConsumerState<HomePage> {
     final colorTheme = Theme.of(context).colorScheme;
     final size = MediaQuery.of(context).size;
     return Padding(
-      padding: const EdgeInsets.only(bottom: 10),
+      padding: const EdgeInsets.only(bottom: 20),
       child: SizedBox(
         width: size.width,
         child: Row(
           children: [
-            flag != null
-                ? SvgPicture.network(flag, height: 40, width: 40)
+            flag != null || flag!.isNotEmpty
+                ? Container(
+                    height: 40,
+                    width: 40,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        image: DecorationImage(image: NetworkImage(flag))),
+                  )
                 : Container(
                     width: 40,
                     height: 40,
@@ -211,9 +228,6 @@ class _HomePageState extends ConsumerState<HomePage> {
                 Text(
                   country,
                   style: textTheme.headline1,
-                ),
-                const SizedBox(
-                  height: 5,
                 ),
                 Text(
                   capital,
