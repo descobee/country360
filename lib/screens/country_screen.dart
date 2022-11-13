@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:country360/country_model/country_model.dart';
 import 'package:country360/domain/controller.dart';
 import 'package:flutter/material.dart';
@@ -16,8 +18,11 @@ class HomePage extends ConsumerStatefulWidget {
 
 class _HomePageState extends ConsumerState<HomePage> {
   final TextEditingController controller = TextEditingController();
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(
+    BuildContext context,
+  ) {
     final textTheme = Theme.of(context).textTheme;
     final colorTheme = Theme.of(context).colorScheme;
     final size = MediaQuery.of(context).size;
@@ -146,7 +151,8 @@ class _HomePageState extends ConsumerState<HomePage> {
                       child: Consumer(builder: (context, ref, _) {
                         return controllerCountry.when(
                             data: (data) {
-                              List<CountriesModel> countries = data;
+                              List<CountriesModel> countries =
+                                  data.map((e) => e).toList();
                               countries.sort(
                                 (a, b) {
                                   return a.commonName!
