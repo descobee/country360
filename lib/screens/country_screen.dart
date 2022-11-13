@@ -26,7 +26,7 @@ class _HomePageState extends ConsumerState<HomePage> {
     final textTheme = Theme.of(context).textTheme;
     final colorTheme = Theme.of(context).colorScheme;
     final size = MediaQuery.of(context).size;
-    final controllerCountry = ref.read(countryController);
+    final controllerCountry = ref.watch(countryController);
     return SafeArea(
       child: GestureDetector(
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
