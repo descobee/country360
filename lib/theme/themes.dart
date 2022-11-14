@@ -72,6 +72,6 @@ class MyThemes {
             fontFamily: 'Axiforma',
             fontSize: 14,
             color: Colors.white,
-            fontWeight: FontWeight.w400,
+            fontWeight: FontWeight.w200,
           )));
 }
