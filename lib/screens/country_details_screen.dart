@@ -42,7 +42,7 @@ class _CountryDetailsScreenState extends ConsumerState<CountryDetailsScreen> {
                             disableCenter: false,
                             autoPlay: true,
                             autoPlayAnimationDuration:
-                                const Duration(seconds: 2),
+                                const Duration(seconds: 1),
                           ),
                           items: images
                               .map((item) => Container(
@@ -54,45 +54,6 @@ class _CountryDetailsScreenState extends ConsumerState<CountryDetailsScreen> {
                                             fit: BoxFit.cover, width: 1000)),
                                   ))
                               .toList())),
-                  // Align(
-                  //   alignment: Alignment.center,
-                  //   child: SizedBox(
-                  //     height: 200,
-                  //     child: Padding(
-                  //       padding: const EdgeInsets.symmetric(horizontal: 10),
-                  //       child: Row(
-                  //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //         children: [
-                  //           Container(
-                  //             padding: const EdgeInsets.all(5),
-                  //             decoration: BoxDecoration(
-                  //                 shape: BoxShape.circle,
-                  //                 color: Colors.grey.withOpacity(0.6)),
-                  //             child: const Icon(
-                  //               Icons.keyboard_arrow_left,
-                  //               color: Colors.black,
-                  //               size: 40,
-                  //             ),
-                  //           ),
-                  //           Padding(
-                  //             padding: const EdgeInsets.only(right: 5),
-                  //             child: Container(
-                  //               padding: const EdgeInsets.all(5),
-                  //               decoration: BoxDecoration(
-                  //                   shape: BoxShape.circle,
-                  //                   color: Colors.grey.withOpacity(0.6)),
-                  //               child: const Icon(
-                  //                 Icons.keyboard_arrow_right,
-                  //                 color: Colors.black,
-                  //                 size: 40,
-                  //               ),
-                  //             ),
-                  //           ),
-                  //         ],
-                  //       ),
-                  //     ),
-                  //   ),
-                  // )
                 ],
               ),
               const SizedBox(
