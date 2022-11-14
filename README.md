@@ -3,11 +3,11 @@
 A simple Flutter project that showcases basic and core mobile application features.
 
 ## Design
-Here is a link to the Figma design of which I replicated [HERE](https://www.figma.com/file/v9AXj4VZNnx26fTthrPbhX/Explore?node-id=0%3A1).
+Here is a link to the Figma design of which I replicated [here](https://www.figma.com/file/v9AXj4VZNnx26fTthrPbhX/Explore?node-id=0%3A1)
 
 ## Application Features
 ### The following are some features the mobile application contains:
-- Consumption of APIs.
+- Consumption of APIs; [Countries API V3](https://restcountries.com/v3.1/all)
 - Reusable.
 - Search query.
 - Light and Dark Theme (on command and on system settings).
@@ -24,3 +24,6 @@ Here is a link to the Figma design of which I replicated [HERE](https://www.figm
 
 ## Upscale Future Features
 In new releases of this application, I will include the localisation that will handle switching between different languages.
+
+## Hosted App Link
+The application was hosted on [appetize.io](https://appetize.io/app/nlydhwqhkmdpdpoxq3juo5vjfm?device=pixel4&osVersion=11.0&scale=75)
