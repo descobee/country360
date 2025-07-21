@@ -1,5 +1,5 @@
 import 'package:country360/domain/controller.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide CarouselController;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
@@ -17,7 +17,7 @@ class _CountryDetailsScreenState extends ConsumerState<CountryDetailsScreen> {
     final countryDetailProvider = ref.watch(countryContollerr).selectedCountry;
     final List images = [
       countryDetailProvider?.flags?.png,
-      countryDetailProvider?.coatOfArms
+      countryDetailProvider?.flags?.png
     ];
     return Scaffold(
       appBar: AppBar(),
@@ -71,12 +71,14 @@ class _CountryDetailsScreenState extends ConsumerState<CountryDetailsScreen> {
                   details: countryDetailProvider?.capital ?? "N/A"),
               headingAndDetails(
                   heading: "Language :",
-                  details: countryDetailProvider?.languages?.values
+                  details: countryDetailProvider?.languages
+                          ?.map((lang) => lang.name)
+                          .toList()
                           .toString()
                           .replaceAll("{", "")
                           .replaceAll("}", "")
-                          .replaceAll("(", "")
-                          .replaceAll(")", "") ??
+                          .replaceAll("[", "")
+                          .replaceAll("]", "") ??
                       "N/A"),
               const SizedBox(
                 height: 40,
@@ -91,12 +93,8 @@ class _CountryDetailsScreenState extends ConsumerState<CountryDetailsScreen> {
                   details: countryDetailProvider?.area.toString() ?? "N/A"),
               headingAndDetails(
                   heading: 'Currency :',
-                  details: countryDetailProvider?.currencies?.eur?.name ??
-                      countryDetailProvider?.currencies?.usd?.name ??
-                      countryDetailProvider?.currencies?.cad?.name ??
-                      countryDetailProvider?.currencies?.gbp?.name ??
-                      countryDetailProvider?.currencies?.ngn?.name ??
-                      "N/A"),
+                  details:
+                      countryDetailProvider?.currencies?.first.name ?? "N/A"),
               const SizedBox(
                 height: 40,
               ),
@@ -104,11 +102,6 @@ class _CountryDetailsScreenState extends ConsumerState<CountryDetailsScreen> {
                   heading: 'Timezone :',
                   details: countryDetailProvider?.timezones?.first ?? "N/A"),
               headingAndDetails(heading: 'Dialing Code :', details: "N/A"),
-              headingAndDetails(
-                  heading: 'Driving Side :',
-                  details:
-                      countryDetailProvider?.side.toString().toUpperCase() ??
-                          "N/A"),
             ],
           ),
         ),
@@ -127,7 +120,7 @@ class _CountryDetailsScreenState extends ConsumerState<CountryDetailsScreen> {
           else
             Text(
               heading,
-              style: textTheme.headline1,
+              style: textTheme.labelLarge,
             ),
           if (heading == null)
             const SizedBox.shrink()
@@ -139,7 +132,7 @@ class _CountryDetailsScreenState extends ConsumerState<CountryDetailsScreen> {
             Expanded(
               child: Text(
                 details,
-                style: textTheme.subtitle1,
+                style: textTheme.bodyMedium,
               ),
             ),
         ],

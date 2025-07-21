@@ -37,8 +37,7 @@ class _HomePageState extends ConsumerState<HomePage> {
         List.generate(countries.length, (index) => countries[index]);
     setState(() {
       filteredCountries = newItems
-          .where(
-              (e) => e.commonName!.toLowerCase().contains(query.toLowerCase()))
+          .where((e) => e.name!.toLowerCase().contains(query.toLowerCase()))
           .toList();
     });
   }
@@ -50,9 +49,7 @@ class _HomePageState extends ConsumerState<HomePage> {
           List<CountriesModel> countries = data.map((e) => e).toList();
           countries.sort(
             (a, b) {
-              return a.commonName!
-                  .toLowerCase()
-                  .compareTo(b.commonName!.toLowerCase());
+              return a.name!.toLowerCase().compareTo(b.name!.toLowerCase());
             },
           );
           final ccc = ref.read(countryContollerr);
@@ -79,7 +76,7 @@ class _HomePageState extends ConsumerState<HomePage> {
       child: Scaffold(
         appBar: AppBar(
           leadingWidth: 500,
-          toolbarHeight: 30,
+          toolbarHeight: 80,
           leading: Row(
             children: [
               Padding(
@@ -103,8 +100,9 @@ class _HomePageState extends ConsumerState<HomePage> {
           ),
           actions: [
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: DecoratedBox(
+              padding: const EdgeInsets.all(10),
+              child: Container(
+                padding: const EdgeInsets.all(1),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: colorTheme.secondary,
@@ -124,7 +122,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                         icon: const Icon(Icons.light_mode, size: 25),
                       ),
               ),
-            ),
+            )
           ],
         ),
         body: SafeArea(
@@ -156,81 +154,83 @@ class _HomePageState extends ConsumerState<HomePage> {
                         ),
                         fillColor: colorTheme.secondary,
                         hintText: 'Search Country',
-                        hintStyle: textTheme.subtitle1,
+                        hintStyle: textTheme.bodyMedium,
                         focusedBorder: InputBorder.none),
                   ),
                 ),
                 const SizedBox(
                   height: 20,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: colorTheme.secondary),
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      child: Row(
-                        children: [
-                          SvgPicture.asset(
-                            'assets/svgs/globe-913.svg',
-                            color: colorTheme.primary,
-                            height: 10,
-                            width: 10,
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          const Text('EN'),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: colorTheme.secondary),
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      child: Row(
-                        children: [
-                          SvgPicture.asset(
-                            'assets/svgs/filter-svgrepo-com.svg',
-                            color: colorTheme.primary,
-                            height: 10,
-                            width: 10,
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          const Text('Filter'),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //   children: [
+                //     Container(
+                //       padding: const EdgeInsets.all(8),
+                //       decoration: BoxDecoration(
+                //         border: Border.all(color: colorTheme.secondary),
+                //         borderRadius: BorderRadius.circular(5),
+                //       ),
+                //       child: Row(
+                //         children: [
+                //           SvgPicture.asset(
+                //             'assets/svgs/globe-913.svg',
+                //             color: colorTheme.primary,
+                //             height: 10,
+                //             width: 10,
+                //           ),
+                //           const SizedBox(
+                //             width: 5,
+                //           ),
+                //           const Text('EN'),
+                //         ],
+                //       ),
+                //     ),
+                //     Container(
+                //       padding: const EdgeInsets.all(8),
+                //       decoration: BoxDecoration(
+                //         border: Border.all(color: colorTheme.secondary),
+                //         borderRadius: BorderRadius.circular(5),
+                //       ),
+                //       child: Row(
+                //         children: [
+                //           SvgPicture.asset(
+                //             'assets/svgs/filter-svgrepo-com.svg',
+                //             color: colorTheme.primary,
+                //             height: 10,
+                //             width: 10,
+                //           ),
+                //           const SizedBox(
+                //             width: 10,
+                //           ),
+                //           const Text('Filter'),
+                //         ],
+                //       ),
+                //     )
+                //   ],
+                // ),
+                
                 const SizedBox(
                   height: 20,
                 ),
                 Expanded(
-                    child: SizedBox(
                   child: RefreshIndicator(
                     onRefresh: () {
                       return ref.refresh(countryController.future);
                     },
-                    child: SingleChildScrollView(
-                      physics: const AlwaysScrollableScrollPhysics(),
-                      child: Consumer(builder: (context, ref, _) {
-                        final ccc = ref.watch(countryContollerr);
-                        return controllerCountry.when(
-                            data: (data) {
-                              return Column(
+                    color: colorTheme.surface,
+                    backgroundColor: Colors.transparent,
+                    child: Consumer(builder: (context, ref, _) {
+                      final ccc = ref.watch(countryContollerr);
+                      return controllerCountry.when(
+                          data: (data) {
+                            return SingleChildScrollView(
+                              physics: const AlwaysScrollableScrollPhysics(),
+                              child: Column(
                                 children: [
                                   ...reduceList().map((e) {
                                     return countryTile(
-                                        country: e.commonName ?? 'N/A',
-                                        capital: e.capital ?? 'N/A',
+                                        country: e.name ?? '',
+                                        capital: e.capital ?? '',
                                         function: () {
                                           ccc.setSelectedCountry(e);
                                           Navigator.of(context).push(
@@ -238,16 +238,20 @@ class _HomePageState extends ConsumerState<HomePage> {
                                                   builder: (context) =>
                                                       const CountryDetailsScreen()));
                                         },
-                                        flag: e.flags?.png ?? '');
+                                        flag: e.flags?.svg);
                                   })
                                 ],
-                              );
-                            },
-                            error: (error, _) {
-                              return Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: const [
-                                  Center(
+                              ),
+                            );
+                          },
+                          error: (error, _) {
+                            return Center(
+                              child: SingleChildScrollView(
+                                physics: const AlwaysScrollableScrollPhysics(),
+                                child: SizedBox(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.5,
+                                  child: Center(
                                     child: Text(
                                       'Error generating countries\nPlease swipe down to refresh',
                                       style: TextStyle(
@@ -258,16 +262,30 @@ class _HomePageState extends ConsumerState<HomePage> {
                                       textAlign: TextAlign.center,
                                     ),
                                   ),
-                                ],
-                              );
-                            },
-                            loading: () => const Center(
-                                  child: CircularProgressIndicator(),
-                                ));
-                      }),
-                    ),
+                                ),
+                              ),
+                            );
+                          },
+                          loading: () => Center(
+                                child: SingleChildScrollView(
+                                  physics:
+                                      const AlwaysScrollableScrollPhysics(),
+                                  child: SizedBox(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.5,
+                                    child: Center(
+                                      child: CircularProgressIndicator(
+                                        color: colorTheme.primary,
+                                        backgroundColor: Colors.transparent,
+                                        strokeWidth: 6,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ));
+                    }),
                   ),
-                )),
+                ),
               ],
             ),
           ),
@@ -294,13 +312,13 @@ class _HomePageState extends ConsumerState<HomePage> {
           child: Row(
             children: [
               flag != null || flag!.isNotEmpty
-                  ? Container(
-                      height: 40,
-                      width: 40,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          image: DecorationImage(image: NetworkImage(flag))),
-                    )
+                  ? SizedBox(
+                    height: 40,
+                    width: 40,
+                    child: SvgPicture.network(
+                        flag,
+                      ),
+                  )
                   : Container(
                       width: 40,
                       height: 40,
@@ -309,18 +327,20 @@ class _HomePageState extends ConsumerState<HomePage> {
               const SizedBox(
                 width: 10,
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    country,
-                    style: textTheme.headline1,
-                  ),
-                  Text(
-                    capital,
-                    style: textTheme.subtitle1,
-                  ),
-                ],
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      country,
+                      style: textTheme.labelLarge,
+                    ),
+                    Text(
+                      capital,
+                      style: textTheme.bodyMedium,
+                    ),
+                  ],
+                ),
               )
             ],
           ),

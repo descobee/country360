@@ -16,6 +16,7 @@ class ApiClient {
 
     if (response.statusCode == 200) {
       final List result = jsonDecode(response.body);
+      log(result.toString());
       return result.map(((e) => CountriesModel.fromJson(e))).toList();
     } else {
       throw Exception();

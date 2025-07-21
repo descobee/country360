@@ -29,9 +29,9 @@ class MyThemes {
       ),
       scaffoldBackgroundColor: Colors.white,
       textTheme: const TextTheme(
-          headline1: TextStyle(
+          labelLarge: TextStyle(
               fontFamily: 'Axiforma', fontSize: 14, color: Color(0XFF1C1917)),
-          subtitle1: TextStyle(
+          bodyMedium: TextStyle(
               fontFamily: 'Axiforma', fontSize: 14, color: Color(0XFF667085))));
 
   static ThemeData darkTheme = ThemeData(
@@ -62,13 +62,13 @@ class MyThemes {
       ),
       scaffoldBackgroundColor: const Color(0XFF000F24),
       textTheme: const TextTheme(
-          headline1: TextStyle(
+          labelLarge: TextStyle(
             fontFamily: 'Axiforma',
             fontSize: 14,
             color: Colors.white,
             fontWeight: FontWeight.bold,
           ),
-          subtitle1: TextStyle(
+          bodyMedium: TextStyle(
             fontFamily: 'Axiforma',
             fontSize: 14,
             color: Colors.white,
