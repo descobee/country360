@@ -7,7 +7,7 @@ Here is a link to the Figma design of which I replicated [here](https://www.figm
 
 ## Application Features
 ### The following are some features the mobile application contains:
-- Consumption of APIs; [Countries API V3](https://restcountries.com/v3.1/all)
+- Consumption of APIs; [Countries API](https://restcountries.com/v3.1/all](https://www.apicountries.com/countries))
 - Reusable.
 - Search query.
 - Light and Dark Theme (on command and on system settings).
@@ -15,7 +15,7 @@ Here is a link to the Figma design of which I replicated [here](https://www.figm
 - Image Slideshow.
 
 ## Application Packages
-### In order to make the application to be of good standard, some packages were used. These include:
+### In order to make the application of good standards, some packages were used. These include:
 - Flutter SVG for SVGs.
 - Flutter RiverPod for State Management.
 - Carousel Slider for sliding images.
