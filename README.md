@@ -25,5 +25,5 @@ Here is a link to the Figma design of which I replicated [here](https://www.figm
 ## Upscale Future Features
 In new releases of this application, I will include the localisation that will handle switching between different languages.
 
-## Hosted App Link
-The application was hosted on [appetize.io](https://appetize.io/app/nlydhwqhkmdpdpoxq3juo5vjfm?device=pixel4&osVersion=11.0&scale=75)
+## App Video
+![Demo](assets/ezgif.gif)
