@@ -8,7 +8,7 @@ import 'package:http/http.dart';
 final repoProvider = Provider<ApiClient>((ref) => ApiClient());
 
 class ApiClient {
-  String baseURL = 'https://restcountries.com/v3.1/all';
+  String baseURL = 'https://www.apicountries.com/countries';
 
   Future<List<CountriesModel>> getCountries() async {
     log('Getting Countries...');
