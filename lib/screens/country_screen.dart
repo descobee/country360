@@ -253,7 +253,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                                       style: TextStyle(
                                         fontFamily: 'Axiforma',
                                         fontSize: 16,
-                                        color: Colors.white,
+                                        color: colorTheme.surface,
                                       ),
                                       textAlign: TextAlign.center,
                                     ),
